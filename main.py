@@ -6,6 +6,7 @@ import ollama
 import csv
 from datetime import datetime
 from pathlib import Path
+import argparse
 
 
 def latlon_to_tile(lat, lon, zoom):
@@ -91,12 +92,18 @@ def save_to_csv(lat, lon, zoom, description, csv_path="./database/descriptions.c
 
 
 if __name__ == "__main__":
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="Download and analyze satellite imagery")
+    parser.add_argument("--lat", type=float, default=41.8902, help="Latitude (default: 41.8902 - Colosseum)")
+    parser.add_argument("--lon", type=float, default=12.4922, help="Longitude (default: 12.4922 - Colosseum)")
+    parser.add_argument("--zoom", type=int, default=17, help="Zoom level (default: 17)")
+    args = parser.parse_args()
+
     # Load model configuration
     models = load_models_config()
     vision_model = models.get("VISION")
 
-    # Coordinates for the Colosseum in Rome
-    lat, lon, zoom = 41.8902, 12.4922, 17
+    lat, lon, zoom = args.lat, args.lon, args.zoom
     image_path = "./images/osm_tile.png"
 
     # Download satellite image
