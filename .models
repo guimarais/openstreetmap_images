@@ -1,0 +1,2 @@
+VISION="gemma3:4b"
+TEXT="qwen3:8b"
